@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {include file="public/css"}
+</head>
+
+<body>
+<section class="g-flexview">
+
+
+    <style>
+        body {
+            background: url("__IMAGES__/background.jpg") top center no-repeat;
+
+            background-size: cover;
+        }
+
+        .cell-item input {
+            color: #359fe2;
+        }
+
+        .m-cell {
+            margin: 10px;
+            margin-top: 60px;
+            border-radius: 10px;
+        }
+
+        .m-cell .cell-item {
+            border-bottom: 1px solid #f5f5f5;
+            margin: 10px;
+            margin-left: 0px;
+        }
+
+        .g-time {
+            width: 33.3333%;
+            float: left;
+            position: relative;
+            z-index: 0;
+            padding: .32rem 0;
+            font-size: .28rem;
+            text-align: center;
+        }
+
+        .g-span {
+            font-size: 0.2rem;
+            border: none;
+            width: 80%;
+        }
+
+        .g-title {
+            height: 0.8rem;
+            line-height: 0.8rem;
+            font-size: 0.3rem;
+            color: #999999;
+        }
+
+        .cell-item:not(:last-child):after {
+            border-bottom: none;
+        }
+
+        .cell-left .cell-item {
+            border-bottom: none;
+            margin: 0;
+            padding-left: 0;
+        }
+
+        input::-webkit-input-placeholder {
+            /* placeholder颜色  */
+            color: #359fe2;
+            font-size: 15px;
+
+        }
+
+        .price input::-webkit-input-placeholder {
+            /* placeholder颜色  */
+            color: red;
+            font-size: .25rem;
+
+        }
+    </style>
+    <div class="g-scrollview">
+        <div class="m-cell">
+
+            <div class="cell-item ">
+                <div class="cell-left">团号</div>
+                <div class="cell-right"><input type="text" id="" class="cell-input"
+                                               placeholder="输入团号" value=" " autocomplete="off"/></div>
+            </div>
+            <div class="cell-item ">
+                <div class="cell-left">艾欧尼亚钻石酒店</div>
+                <div class="cell-right"><a href="#"> </a></div>
+            </div>
+
+
+            <div class="cell-item">
+                <div class="cell-left" style="width: 50%">
+                    <div class="cell-item">
+                        <div class="cell-left">入住时间：</div>
+                        <div class="cell-right">
+                            <input id="my-input" type="text" class="g-span" placeholder="2018-5-1">
+                        </div>
+                    </div>
+                </div>
+                <div class="cell-left" style="width: 50%">
+                    <div class="cell-item">
+                        <div class="cell-left">离店时间：</div>
+                        <div class="cell-right">
+                            <input id="my-inputone" type="text" class="g-span" placeholder="2018-5-5">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cell-item">
+                <div class="cell-left">
+                    <div class="cell-item">
+                        <div class="cell-left">需求房量：</div>
+                        <div class="cell-right"><input type="text" id="hotel" pattern="[0-9]*" class="cell-input"
+                                                       placeholder="请输入" value="10" autocomplete="off"/></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cell-item">
+                <div class="cell-left">
+                    <div class="cell-item">
+                        <div class="cell-left">共计房价：</div>
+                        <div class="cell-right"><input type="text" readonly="readonly" id="hsum" pattern="[0-9]*"
+                                                       class="cell-input" placeholder="0" autocomplete="off"/></div>
+                    </div>
+                </div>
+            </div>
+            <div class="cell-item">
+                <div class="cell-left">
+                    <div class="cell-item">
+                        <div class="cell-left">司配：</div>
+                        <div class="cell-left">
+                            <div style="width: 30%;">
+                                <input style="width: 39px" type="number" pattern="[0-9]*" class="cell-input"
+                                       placeholder="5" autocomplete="off"/>
+                            </div>
+                            <div style="width: 10%;margin-left: 10px">
+                                男
+                            </div>
+                            <div style="width: 30%;margin-left: 10px;">
+                                <input style="width: 39px" type="number" pattern="[0-9]*" class="cell-input"
+                                       placeholder="1" autocomplete="off"/>
+                            </div>
+                            <div style="width: 10%;margin-left: 10px">
+                                女
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cell-item">
+                <div class="cell-left">
+                    <div class="cell-item">
+                        <div class="cell-left">导游名称：</div>
+                        <div class="cell-right"><input type="text" id="guide" class="cell-input"
+                                                       placeholder="请输入" value="梁泽祥" autocomplete="off"/></div>
+                    </div>
+                </div>
+            </div>
+            <div class="cell-item">
+                <div class="cell-left">
+                    <div class="cell-item">
+                        <div class="cell-left">需求房量：</div>
+                        <div class="cell-right"><input type="text" id="guidephone" class="cell-input"
+                                                       placeholder="请输入" value="18677947067" autocomplete="off"/></div>
+                    </div>
+                </div>
+            </div>
+            <div class="cell-item">
+                <div class="cell-right">
+                    <textarea class="cell-textarea" placeholder="备注:（如到店时间、楼层需求）"></textarea>
+                </div>
+            </div>
+            <div class="cell-item">
+                <div class="cell-left">
+                    <div class="cell-item">
+                        <div class="cell-left"><i class="iconfont" style="color: #359fe2">&#xe717;</i>支付宝定金：</div>
+                        <div class="cell-right price"><input style="color: red" type="text" readonly="readonly"
+                                                             id="deposit" pattern="[0-9]*" class="cell-input"
+                                                             placeholder="0" autocomplete="off"/></div>
+                    </div>
+                </div>
+            </div>
+            <div class="cell-item">
+                <a href="{:url('hotel/pay')}" class="btn-block g-block">提交</a>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+</body>
+
+
+<script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+<script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/??sm.min.js,sm-extend.min.js'
+        charset='utf-8'></script>
+<script>
+    $("#my-input").calendar({
+        value: ['2015-12-05']
+    });
+    $("#my-inputone").calendar({
+        value: ['2015-12-05']
+    });
+
+    $("#picker").picker({
+        toolbarTemplate: '<header class="bar bar-nav">\
+  <button class="button button-link pull-left">按钮</button>\
+  <button class="button button-link pull-right close-picker">确定</button>\
+  <h1 class="title">选择酒店星级</h1>\
+  </header>',
+        cols: [
+            {
+                textAlign: 'center',
+                values: ['1星级', '2星级', '3星级', '4星级', '5星级']
+            }
+        ]
+    });
+
+
+    $("#bed").picker({
+        toolbarTemplate: '<header class="bar bar-nav">\
+  <button class="button button-link pull-left">按钮</button>\
+  <button class="button button-link pull-right close-picker">确定</button>\
+  <h1 class="title">房型</h1>\
+  </header>',
+        cols: [
+            {
+                textAlign: 'center',
+                values: ['大床房', '大床房', '亲子房', '三人间', '套房']
+            }
+        ]
+    });
+</script>
+
+
+<script>
+    var sum = 0;
+    var sum1 = 1;
+    var sum2 = "+";
+    var sum3 = 2;
+    if (sum2 == "-") {
+        sum = sum1 - sum3;
+    }
+    $('#hotel').bind('input propertychange', function () {
+        sum = $(this).val() * 239;
+        $("#hsum").val('¥' + sum);
+
+
+        var num = sum * .1;
+        num = num.toFixed(2);
+        $("#deposit").val('¥' + num);
+    });
+
+    function load() {
+        sum = $('#hotel').val() * 239;
+        $("#hsum").val('¥' + sum);
+
+        var num = sum * .1;
+        num = num.toFixed(2);
+        $("#deposit").val('¥' + num);
+
+    }
+
+    load();
+
+
+</script>
+</html>

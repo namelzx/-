@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    {include file="public/css"}
+    <style>
+        body {
+            background: url("__IMAGES__/background.jpg") top center no-repeat;
+
+            background-size: cover;
+            height: auto;
+        }
+
+        .m-cell {
+            margin: 10px;
+            border-radius: 15px;
+            background: #fbf3f4;
+        }
+
+        .time {
+            height: 40px;
+            line-height: 40px;
+        }
+
+        #clock {
+            color: #359fe2;
+            margin: auto;
+            font-size: 0.3rem;
+        }
+
+        .cell-right {
+            justify-content: baseline;
+        }
+
+        .price {
+            color: red;
+            font-size: 0.4rem;
+            margin-top: 0.07rem;
+            margin-left: 0.2rem;
+        }
+        .mask-black{
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+
+<div class="m-cell" style="margin-top: 1rem">
+    <div class="cell-item time">
+
+        <div id="clock"></div>
+
+
+    </div>
+    <div class="cell-item">
+        <div class="cell-left">团号</div>
+        <div class="cell-right"></div>
+
+    </div>
+    <div class="cell-item">
+        <div class="cell-left">带支付押金(元):</div>
+        <div class="cell-right "><span class="price">9683</span></div>
+
+    </div>
+</div>
+
+
+<div class="m-cell">
+    <div class="cell-item time">
+
+        <!--<div id="clock"></div>-->
+
+
+    </div>
+
+    <div class="cell-item">
+        <div class="cell-left">
+            <div class="cell-item">
+                <div class="cell-left"> <a href="#" class="J_OpenKeyBoard"><i class="iconfont"  style="color: #359fe2">&#xe717;</i>支付宝定金：</a></div>
+                <div class="cell-right price"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cell-item">
+        <div class="cell-left">
+            <div class="cell-item">
+                <div class="cell-left">
+                    <a href="#"  id="" class="J_OpenKeyBoard"><i class="iconfont" id="" style="color: #36c857">&#xe7b0;</i>微信支付：</a></div>
+                <div class="cell-right price"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-keyboard" id="J_KeyBoard" style="z-index: 6000">
+        <!-- 自定义内容区域 -->
+        <div style="text-align: right;padding: .15rem .8rem 0;"><a href="http://www.ydui.org" style="color: #666;font-size: .24rem;">忘记密码</a></div>
+        <!-- 自定义内容区域 -->
+    </div>
+</div>
+
+</body>
+{include file="public/js"}
+<script src="/static/jquery.countdown.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var twoDaysFromNow = new Date().valueOf() + 60 * 60 * 60 * 4.16;
+        $('#clock').countdown(twoDaysFromNow, function (event) {
+            var totalHours = event.offset.totalDays * 24 + event.offset.hours;
+            $(this).html(event.strftime(totalHours + ' 小时 %M 分钟 %S 秒'));
+        });
+    })
+
+</script>
+</html>

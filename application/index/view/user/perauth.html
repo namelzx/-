@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {include file="public/css"/}
+</head>
+
+<body>
+<style>
+
+    .fill-wrapper h2 {
+        color: #403d3d;
+        font-size: .6rem;
+        line-height: 2.8125rem;
+        padding: 0 1.125rem;
+        margin: 0;
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+    input::-webkit-input-placeholder {
+        /* placeholder颜色  */
+        color: #adadad;
+        /* placeholder字体大小  */
+        font-size: .6rem;
+        /* placeholder位置  */
+        font-weight: 800;
+
+    }
+
+    .cityselect-content {
+        padding-top: 115px;
+    }
+
+    .cell-left {
+        width: 20%;
+        color: #505050;
+        font-size: .7rem;
+    }
+</style>
+
+<section class="g-scrollview fill-wrapper">
+
+    <form id="form">
+        <!--<div class="m-celltitle">用户信息 【必填项】</div>-->
+
+        <h2 id="top-desc" class="" style="">根据国家实名制要求, 请准确提供身份证信息</h2>
+        <div class="m-cell">
+
+            <div class="cell-item">
+                <div class="cell-left">姓名</div>
+                <div class="cell-right"><input type="text" id="name" class="cell-input" value="{$res.username}"
+                                               name="username"
+                                               placeholder="请输入身份证件姓名" autocomplete="off"/></div>
+            </div>
+            <div class="cell-item">
+                <div class="cell-left">身份证</div>
+                <div class="cell-right"><input type="text" id="card_id" class="cell-input" value="{$res.card_id}"
+                                               name="card_id"
+                                               placeholder="请输入身份证号" autocomplete="off"/></div>
+            </div>
+
+
+            <div class="cell-item">
+                <div class="cell-left">手机号</div>
+                <div class="cell-right">
+                    <input type="text" class="cell-input" id="phone" value="{$res.phone}" name="phone"
+                           placeholder="请输入联系电话"
+                           autocomplete="off"/>
+                    <a href="javascript:;" class="btn btn-warning" id="getCode">获取短信验证码</a>
+                </div>
+
+            </div>
+            <div class="cell-item">
+                <div class="cell-left">验证码</div>
+                <div class="cell-right">
+                    <input type="text" class="cell-input" id="phone_code" name="phone_code" placeholder="请输入短信验证码"
+                           autocomplete="off"/>
+                </div>
+            </div>
+
+
+            <div class="cell-item">
+                <div class="cell-left">现居地址</div>
+                <div class="cell-right">
+                    <input type="text" class="cell-input" id="J_Address" value="{$res.city}" name="city"
+                           placeholder="点击选择区域"
+                           autocomplete="off"/>
+                </div>
+            </div>
+            <div class="cell-item">
+                <div class="cell-right">
+                    <textarea class="cell-textarea" name="area" placeholder="街道/镇+村/小区/写字楼+门牌号">{$res.area}</textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="c">
+        <style>
+            .c .m-cell:after {
+                border-bottom: none;
+            }
+        </style>
+        <div class="m-cell" style="background: #EAE8f3">
+
+            <a href="#" id="subm" class="btn-block g-block">提交</a>
+
+        </div>
+
+    </div>
+
+</section>
+</body>
+{include file="public/js"}
+
+
+<script>
+
+
+    var $address = $('#J_Address');
+
+    $address.citySelect();
+
+    $address.on('click', function () {
+        $address.citySelect('open');
+    });
+
+    $address.on('done.ydui.cityselect', function (ret) {
+        /* 省：ret.provance */
+        /* 市：ret.city */
+        /* 县：ret.area */
+        $(this).val(ret.provance + ' ' + ret.city + ' ' + ret.area);
+    });
+    $('#subm').on('click', function () {
+
+        //用户名不可为空
+        var name = $("#name").val();
+        if (name.length == 0) {
+            YDUI.dialog.toast('别漏了名字！', 'none', 1000);
+            $('#name').focus();
+            return false;
+        }
+        if (!$("#card_id").val().match(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/)) {
+            YDUI.dialog.toast('输入正确的身份证号！', 'none', 1000);
+
+            $("#card_id").focus();
+            return false;
+        }
+        //电话号码格式验证
+        if (!$("#phone").val().match(/^1[3|4|5|7|8][0-9]{9}$/)) {
+            YDUI.dialog.toast('请输入正确的手机号码！', 'none', 1000);
+
+            $("#phone").focus();
+            return false;
+        }
+        var data = $('form').serializeArray();
+        postdata = {};
+        for (x in data) {
+            postdata[data[x].name] = data[x].value;
+        }
+
+
+        url = "{:url('user/perauth')}"
+        $.post(url, postdata, function (res) {
+            YDUI.dialog.toast(res.msg, 'success', 1000);
+
+        });
+
+    })
+</script>
+</html>
