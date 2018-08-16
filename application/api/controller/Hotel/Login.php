@@ -10,6 +10,7 @@ namespace app\api\controller\Hotel;
 
 use app\commonly\model\BisUser;
 use think\Db;
+use \JWT\JWT;
 
 class Login extends Base
 {
@@ -30,12 +31,14 @@ class Login extends Base
                 return json(logomsg(0, '', $data, '密码错误'));
             }
             if (1 != $hasUser['status']) {
-
                 return json(logomsg(0, '', '', '该账号被禁用'));
-
             }
+            $key = "1";
 
-            return json(logomsg(1, 'admin', url('index/index'), '登录成功'));
+            $jwt=JWT::encode($hasUser['bis_id'],$key);
+            $decoded = JWT::decode($jwt, $key, array('HS256'));
+//            session('bis_user',$hasUser);
+            return json(logomsg(1,'admin', $decoded, '登录成功'));
         } else {
             return json(logomsg(0, '', '', '登录失败'));
         }

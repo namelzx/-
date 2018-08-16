@@ -27,7 +27,7 @@ function msg($status, $data = '', $msg = '')
  * @param $msg
  * @return array
  */
-function logomsg($status, $token, $data = '', $msg = '')
+function logomsg($status, $token, $data, $msg = '')
 {
     return compact('status', 'token', 'data', 'msg');
 }
