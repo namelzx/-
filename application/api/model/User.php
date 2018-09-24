@@ -14,8 +14,16 @@ class User extends BaseModel
 
     protected $table = 'leo_user';
     protected $autoWriteTimestamp = true;
-    public function setBystatus($data){
 
-        return $this->where('id',$data['id'])->data('status',$data['status'])->update();
+    public function setBystatus($data)
+    {
+
+        return $this->where('id', $data['id'])->data('status', $data['status'])->update();
+    }
+
+    public function getUserbyInfo($id)
+    {
+        return null;
+
     }
 }

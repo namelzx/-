@@ -121,11 +121,10 @@ return [
     // 全局请求缓存排除规则
     'request_cache_except'   => [],
     'weixin'   => [
-        'appId'=>'wx10b3eb7995364950',
-        'appSecret'=>'c127588d17694354ff22fa8a836a0321',
-        'redirect_uri'=>'localhost:8282'
+        'appId'=>'wx29bb960bf1ba8dd8',
+        'appSecret'=>'d58716d3f03c0cd9eaef74eef9e3960f',
+        'redirect_uri'=>'https://leo.10huisp.com/index/wechat/wxlogin'
     ],
-
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => Env::get('think_path') . 'tpl/dispatch_jump.tpl',
     'dispatch_error_tmpl'    => Env::get('think_path') . 'tpl/dispatch_jump.tpl',
@@ -136,8 +135,14 @@ return [
     // 错误显示信息,非调试模式有效
     'error_message'          => '页面错误！请稍后再试～',
     // 显示错误信息
-    'show_error_msg'         => false,
+    'show_error_msg'         => true,
     // 异常处理handle类 留空使用 \think\exception\Handle
-    'exception_handle'       => '',
+    'exception_handle'       => 'app\lib\exception\ExceptionHandler',
+    'aliyun_oss' => [
+        'KeyId'      => 'LTAI4G7m7lF5SkXU',  //您的Access Key ID
+        'KeySecret'  => 'PbcsuZTY2CMVPjr1K2DGzMejeotVTI',  //您的Access Key Secret
+        'Endpoint'   => 'oss-cn-qingdao.aliyuncs.com',  //阿里云oss 外网地址endpoint
+        'Bucket'     => 'youalixing',  //Bucket名称
+    ],
 
 ];

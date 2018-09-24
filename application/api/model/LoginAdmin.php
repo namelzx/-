@@ -15,7 +15,6 @@ class LoginAdmin extends BaseModel
     protected $autoWriteTimestamp = true;
     public function GetBaseByList(){
         return $this->select();
-
     }
 
 }

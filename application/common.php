@@ -19,6 +19,17 @@ function msg($status, $data = '', $msg = '')
 {
     return compact('status', 'data', 'msg');
 }
+/**
+ * 统一返回信息
+ * @param $status
+ * @param $data
+ * @param $msg
+ * @return array
+ */
+function msgkey($key, $data = '', $msg = '')
+{
+    return compact('status', 'data', 'msg');
+}
 
 /**
  *  登陆返回信息

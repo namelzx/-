@@ -23,5 +23,6 @@ if($_SERVER['REQUEST_METHOD'] == 'OPTIONS'){
     header('Access-Control-Allow-Methods: GET, POST, PUT,DELETE,OPTIONS,PATCH');
     exit;
 }
+define('LOG_PATH',__DIR__.'/../log/');
 // 执行应用并响应
 Container::get('app')->run()->send();

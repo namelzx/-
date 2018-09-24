@@ -13,8 +13,12 @@ class Bis extends BaseModel
 {
     protected $table = 'leo_bis';
     protected $autoWriteTimestamp = true;
-    public function setBystatus($data){
 
-        return $this->where('id',$data['id'])->data('status',$data['status'])->update();
+    public function setBystatus($data)
+    {
+
+        return $this->where('id', $data['id'])->data('status', $data['status'])->update();
     }
+
+
 }
