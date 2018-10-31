@@ -13,16 +13,22 @@ namespace app\commonly\model;
  */
 class HotelCertification extends BaseModel
 {
+    protected $field = true;
+    public function items()
+    {
+        return $this->hasOne('bis', 'user_id', 'user_id');
+    }
     public static function PostCertificationByData($data)
     {
-        return self::create($data);
+        return self::allowField(true)->create($data);
     }
     public static function PostUdateByData($data)
     {
-        return self::where('user_id', $data['user_id'])->update($data);
+        return self::where('user_id', $data['user_id'])->allowField(true)->update($data);
     }
+
     public static function getBYinfo($user_id){
-        return self::where('user_id',$user_id)->find();
+        return self::with('items')->where('user_id',$user_id)->find();
 
     }
 

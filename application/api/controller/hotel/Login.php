@@ -25,7 +25,7 @@ class Login extends Base
             $userModel = new BisUser();
             $hasUser = Db::table('leo_user')->alias('u')
                 ->join('leo_bis_user b','u.id=b.user_id')
-                ->where('u.phone',$data['username'])
+                ->where('b.username',$data['username'])
                 ->find();
             if (empty($hasUser)) {
                 return json(logomsg(0, '', '', '管理员不存在'),'200');

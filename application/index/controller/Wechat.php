@@ -38,10 +38,10 @@ class Wechat extends Controller
             // 如果第一次登录那么进行用户信息添加
             if (empty($wx_user_info)) {
                 $UserModel = new UserModel();
-                  $res=  $UserModel->insertGetId([
-                        'role' => 1,//默认添加用户角色用普通用户
-                        'headimgurl' => $wx_user->headimgurl,
-                    ]);
+                $res = $UserModel->insertGetId([
+                    'role' => 1,//默认添加用户角色用普通用户
+                    'headimgurl' => $wx_user->headimgurl,
+                ]);
 
                 $userData = [
                     'openid' => $wx_user->openid,
@@ -53,7 +53,10 @@ class Wechat extends Controller
                 UserWechat::PostWechatByData($userData);
             }
             // $info即为已经获得的用户的信息，数据格式为对象形式。如获取用户的openid,获取方式为$info->openid。
-            $url = "http://localhost:8080/?id=".$wx_user_info->openid;
+//            $url = "http://localhost:8080/?id=" . $wx_user_info->openid;
+            $url = "http://ya.10huisp.com/?id=".$wx_user_info->openid;
+
+
             $this->redirect($url);
         } else {
             $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' . $config['appId'] . '&redirect_uri=' . urlencode($config['redirect_uri']) . '&response_type=code&scope=snsapi_userinfo&state=state#wechat_redirect';

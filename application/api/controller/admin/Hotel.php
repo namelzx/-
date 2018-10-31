@@ -19,18 +19,18 @@ class Hotel extends Base
     {
         $data = input('get.');
         $Model = new Bis();
-        $res = $Model;
+        $res = $Model->alias('b')->join('hotel_certification h','b.user_id=h.user_id');
         if (!empty($data['qiyeming'])) {
-            $res = $res->where('qiyeming', $data['qiyeming']);
+            $res = $res->where('b.qiyeming', $data['qiyeming']);
         }
         if (!empty($data['status'])) {
             if ($data['status'] == 2) {
-                $res = $res->where('status', 0);
+                $res = $res->where('b.status', 0);
             } else {
-                $res = $res->where('status', $data['status']);
+                $res = $res->where('b.status', $data['status']);
             }
         }
-        $res = $res->order('status')->paginate($data['limit'], false, ['query' => $data['page'],]);
+        $res = $res->order('b.status')->paginate($data['limit'], false, ['query' => $data['page'],]);
         return json($res);
     }
 
@@ -66,6 +66,7 @@ class Hotel extends Base
 //给用户生成随机密码
     function create_password()
     {
+//        dump('11');
         // 密码字符集，可任意添加你需要的字符
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $postdata= input('param.');
@@ -77,15 +78,16 @@ class Hotel extends Base
             // $password .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
             $password .= $chars[mt_rand(0, strlen($chars) - 1)];
         }
+        $bisinfo=db('hotel_certification')->where('user_id',$postdata['user_id'])->find();
         $data = [
             'user_id' => $postdata['user_id'],
             'password' => $password,
-            'username' => $postdata['phone']
+            'username' => $bisinfo['phone']
         ];
         $bisuser = db('bis_user')->where('user_id',$postdata['user_id'])->count();
         if ($bisuser < 1) {
             $res = db('bis_user')->insert($data);
-            db('bis')->insert(['user_id'=>$postdata['user_id']]);
+//            db('bis')->insert(['user_id'=>$postdata['user_id']]);
             if ($res) {
                 return json(msg('1', '', '生成成功'));
             } else {

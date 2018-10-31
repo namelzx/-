@@ -38,7 +38,9 @@ class Hotel extends Base
         $PostData['max_price'] = intval($PostData['max_price']);
         $res = HotelDemand::PostByData($PostData);
         db('demand_room')->insertAll($this->groupRoom($PostData['roomlist'], $res));
+
         return json(['data' => $res, 'msg' => '发布成功']);
+
     }
 
     //获取当前需求信息
@@ -47,22 +49,29 @@ class Hotel extends Base
         $data = input('param.');
         $res = HotelDemand::get($data['key']);
         $room = DemandRoom::where('demand_id', $data['key'])->select();
-        return json(['status' => 1, 'data' => $this->groupHotel($res), 'room' => $this->MatchingShopRoom($room, $data['shop_id'])]);
+        if (empty($data['shop_id'])) {
+            return json(['status' => 1, 'data' => $this->groupHotel($res), 'room' => $room]);
+        } else {
+            return json(['status' => 1, 'data' => $this->groupHotel($res), 'room' => $this->MatchingShopRoom($room, $data['shop_id'])]);
+
+        }
+
     }
 
     /*
      * 匹配商户房间信息
      */
-    public function MatchingShopRoom($visit, $user_id)
+    public function MatchingShopRoom($visit, $key)
     {
         $visit_list = [];
-        $data = HotelRoom::where('user_id', $user_id)->select();
+
+        $data = HotelRoom::where('user_id', $key)->select();
         for ($i = 0; $i < count($data); $i++) {
             for ($k = 0; $k < count($visit); $k++) {
                 if ($data[$i]['room_type'] == $visit[$k]['room_id']) {
                     $visit_list[$k] = $visit[$k];
                     $visit_list[$k]['price'] = $data[$i]['price'];
-                }else{
+                } else {
                     $visit_list[$k] = $visit[$k];
 //                    $visit_list[$k]['price'] ="酒店没有这个房型";
                 }
@@ -77,6 +86,7 @@ class Hotel extends Base
     public function getHotelBylist()
     {
         $postdata = input('param.');
+//        dump($postdata);
         $data = HotelDemand::get($postdata['id']);
 
         $res = Db::name('hotel_certification')->alias('c')

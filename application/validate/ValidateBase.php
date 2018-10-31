@@ -30,7 +30,6 @@ class ValidateBase extends Validate
         $params['token'] = request()->header('token');
 
         if (!$this->check($params)) {
-
             $exception = new ParameterException(
             );
             $exception->msg=$this->getError();

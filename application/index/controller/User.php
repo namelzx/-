@@ -9,7 +9,7 @@
 namespace app\index\controller;
 
 use app\commonly\model\Bis;
-use  app\commonly\model\User as UserModel;
+use app\commonly\model\User as UserModel;
 
 class User extends Base
 {
@@ -27,11 +27,17 @@ class User extends Base
         return view();
     }
 
+    public function login()
+    {
+        $data = input('param.');
+        return json($data);
+    }
+
     // 认证信息
     public function certification()
     {
         $assign = [
-            'type'=>1,
+            'type' => 1,
         ];
         $this->assign($assign);
         return view();
@@ -83,14 +89,14 @@ class User extends Base
      */
     public function enterprissauth()
     {
-        if(request()->isPost()){
-            $postdata=input('param.');
-            $Model=new Bis();
-            $res=$Model->allowField(true)->save($postdata);
-            if($res){
-                return json(msg(1,'','已经提交认证'));
+        if (request()->isPost()) {
+            $postdata = input('param.');
+            $Model = new Bis();
+            $res = $Model->allowField(true)->save($postdata);
+            if ($res) {
+                return json(msg(1, '', '已经提交认证'));
             }
-            return json(msg(2,'','提交认证失败'));
+            return json(msg(2, '', '提交认证失败'));
         }
         return view();
     }

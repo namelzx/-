@@ -154,10 +154,8 @@ class Hotelbase extends Base
         $data = input('post.');
 
         if (!empty($data)) {
-
             $Model = new Bis();
-
-            $res = $Model->allowField(true)->save($data, ['id' => $data['id']]);
+            $res = db('bis')->strict(false)->where('user_id',7)->update($data);
             return json(msg(1, $res, '更新成功'));
         }
     }
