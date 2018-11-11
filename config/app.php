@@ -125,6 +125,10 @@ return [
         'appSecret'=>'d58716d3f03c0cd9eaef74eef9e3960f',
         'redirect_uri'=>'https://leo.10huisp.com/index/wechat/wxlogin'
     ],
+    'eas'=>[
+        'app_id' => 'wx29bb960bf1ba8dd8',
+        'secret' => 'd58716d3f03c0cd9eaef74eef9e3960f',
+    ],
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => Env::get('think_path') . 'tpl/dispatch_jump.tpl',
     'dispatch_error_tmpl'    => Env::get('think_path') . 'tpl/dispatch_jump.tpl',

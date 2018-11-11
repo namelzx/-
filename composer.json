@@ -19,7 +19,8 @@
         "php": ">=5.6.0",
         "topthink/framework": "5.1.*",
         "topthink/think-image": "^1.0",
-        "aliyuncs/oss-sdk-php": "^2.3"
+        "aliyuncs/oss-sdk-php": "^2.3",
+        "naixiaoxin/think-wechat": "^1.2"
     },
     "autoload": {
         "psr-4": {

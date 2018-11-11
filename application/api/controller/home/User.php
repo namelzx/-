@@ -11,6 +11,7 @@ namespace app\api\controller\home;
 
 use app\api\Jssdk\Jssdk;
 use app\api\model\UserWechat;
+use app\api\Validate\UserValidate;
 use app\commonly\model\Certification;
 use app\commonly\model\HotelCertification;
 use app\commonly\model\User as UserModel;
@@ -143,20 +144,18 @@ class User extends Base
     public function setUserbyInfo()
     {
         $data = input('param.');
-
 //        (new TokenValidate())->goCheck();
-
+        (new UserValidate())->goCheck();
         $res = UserModel::PostUpdateByData($data);
         if ($res) {
-            return json(msg(200, $res, '更新成功'));
+            return json(msg(200, $res, '感谢使用'));
         } else {
             return json(msg(201, $res, '更新失败'));
         }
     }
-
     public function UserbyInfo()
     {
-//        (new TokenValidate())->goCheck();
+
         $data = input('param.');
         $res = UserModel::get($data['id']);
         if ($res) {

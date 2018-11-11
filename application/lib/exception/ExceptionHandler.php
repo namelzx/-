@@ -18,7 +18,7 @@ class ExceptionHandler extends Handle
     private $code;
     private $msg;
     private $errorCode;
-//
+
 //    public function render(\Exception $e)
 //    {
 //
@@ -34,7 +34,6 @@ class ExceptionHandler extends Handle
 //            $this->errorCode = 999;
 //        }
 //        $result = [
-//
 //            'msg' => $this->msg,
 //            'code' => $this->code,
 //            'request_url' => Request::url()

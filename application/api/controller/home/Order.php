@@ -51,7 +51,7 @@ class Order extends Base
     public function SetOrderByStatus()
     {
         $data = input('param.');
-        $res=RoomOrder::SetOrderByStatus( $data);
+        RoomOrder::SetOrderByStatus( $data);
         return json($data);
     }
 

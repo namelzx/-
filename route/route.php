@@ -41,7 +41,7 @@ Route::group('api/admin/', function () {
     //酒店审核
     Route::get('hotel/GetList', 'api/admin.hotel/GetList');
     Route::post('hotel/setStatus', 'api/admin.hotel/setStatus');
-    Route::get('hotel/createpwd', 'api/admin.hotel/create_password');//给用户生成账号密码
+    Route::Post('hotel/createpwd', 'api/admin.hotel/create_password');//给用户生成账号密码
 });
 /*
  * 酒店方后台管理路由
