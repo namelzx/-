@@ -12,6 +12,7 @@ namespace app\commonly\model;
 class MeetingDemand extends BaseModel
 {
     protected $hidden=['id'];
+
     //添加数据
     public static function PostByData($data)
     {

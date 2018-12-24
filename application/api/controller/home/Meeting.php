@@ -36,9 +36,14 @@ class Meeting extends Base
     {
         $data = input('param.');
         $res = MeetingDemand::get($data['key']);
-        $meeting =db('demand_meeting')->where('meeting_id', $data['key'])->select();
-        return json(msg(200, $this->groupMeeting($res), $meeting));
 
+        $meeting =db('demand_meeting')->where('meeting_id', $data['key'])->select();
+        if(empty($data['shop_id'])){
+            return json(['status'=>200,'data'=>$this->groupMeeting($res), 'msg'=>$meeting]);
+
+        }
+        $price=db('push_meeting')->where(['bis_id'=>$data['shop_id'],'meeting_id'=>$data['key']])->field('price')->find();
+        return json(['status'=>200,'data'=>$this->groupMeeting($res), 'msg'=>$meeting,'price'=>$price['price']]);
     }
 
     /*
@@ -47,17 +52,21 @@ class Meeting extends Base
     public function getMeetingBylist()
     {
         $postdata = input('param.');
+        $all = db('push_meeting')->where('meeting_id', $postdata['id'])->field('bis_id')->group('bis_id')->select();
+        $result = array_reduce($all, function ($result, $value) {
+            return array_merge($result, array_values($value));
+        }, array());
+        $res = Bis::GetBisByList($result, $postdata);
+        return json($res);
+    }
 
-        $data = MeetingDemand::get($postdata['id']);
-        $res = Db::name('hotel_certification')->alias('c')
-            ->where('c.citycode', $data['citycode'])
-            ->where('c.areacode', $data['areacode'])
-            ->join('hotel_room r', 'r.user_id=c.user_id')
-            ->join('server_shop s', 's.shop_id=c.user_id')
-            ->join('bis b', 'b.user_id=c.user_id')
-            ->group('c.id')
-            ->field('b.user_id as id,b.logo,b.qiyeming,b.start_price as price,r.title,b.tel,c.city,c.areavalue')
-            ->paginate(20, false, ['query' => $postdata['page'],]);
+    /**
+     * 获取商家报价
+     */
+    public function GetBisPush()
+    {
+        $data = input('param.');
+        $res = db('push_meeting')->where($data)->field('price')->find();
         return json($res);
     }
 
@@ -66,10 +75,15 @@ class Meeting extends Base
      */
     public function Demand_Push()
     {
+
         $data = input('param.');
+        $where=db('push_meeting')->where(['meeting_id'=>$data['meeting_id'],'bis_id'=>$data['bis_id']])->count();
+        if($where>0){
+            return json(msg(205, '', '报价已提交'));
+        }
         db('push_meeting')->insert($data);
         $BisData=Bis::GetBisByFind($data['bis_id']);
-        return json(msg(200, $BisData, '报价成功'));
+        return json(msg(200, $BisData, '报价已提交'));
     }
     /**
      * 提交订单
@@ -79,10 +93,8 @@ class Meeting extends Base
         $data['create_time']=time();
         $data['status']=1;
         $res=MeetingOrder::PostByData($data);
-
         return json(msg(200,$res,'提交成'));
     }
-
     /* 酒店详细信息重装 */
     function groupMeeting($data)
     {
@@ -91,10 +103,6 @@ class Meeting extends Base
         $visit_list['star_name'] = $star['info_name'];
         return $visit_list;
     }
-
-
-
-
     /* 发布任务数据重装 */
     function groupRoom($visit, $id)
     {

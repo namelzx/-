@@ -61,10 +61,10 @@ class Wechat extends Controller
                 'user_id' => $res,
             ];
             UserWechat::PostWechatByData($userData);
-            $url = "http://localhost:8080/#/?user_id=".$res;
+            $url = config('wx_url')."#/?user_id=".$res;
             $this->redirect($url);
         }
-        $url = "http://localhost:8080/#/?user_id=".$wx_user_info->user_id;
+        $url = config('wx_url')."#/?user_id=".$wx_user_info->user_id;
         $this->redirect($url);
     }
 }

@@ -121,7 +121,6 @@ class Hotel extends Base
         }
         return $visit_list;
     }
-
     /*
      * 获取符合需求酒店
      */

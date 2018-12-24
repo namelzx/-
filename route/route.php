@@ -80,15 +80,18 @@ Route::group('api/hotel', function () {
     Route::post('/update', 'api/hotel.hotelbase/update');
     Route::post('/PostRoombyAdd', 'api/hotel.hotelbase/PostRoombyAdd');
     Route::post('room/PostDataByUpdate', 'api/hotel.hotelbase/PostDataByUpdate');  //修改数据
-//工具类
+    //工具类
     Route::post('hotel/upload', 'api/hotel.hotelBase/upload');
-
     //酒店订单
-    Route::get('hotel/order/getOrderByData', 'api/hotel.order/getOrderByData');
-    Route::post('hotel/order/SetOrderByStatus', 'api/hotel.order/SetOrderByStatus');
+    Route::get('/order/getOrderByData', 'api/hotel.order/getOrderByData');
+    Route::post('/order/SetOrderByStatus', 'api/hotel.order/SetOrderByStatus');
+    //会议室订单
+    Route::get('/meeting/getMeetingByData', 'api/hotel.meeting/getMeetingByData');
+    Route::post('/meeting/SetOrderByStatus', 'api/hotel.meeting/SetOrderByStatus');
 
-
+    Route::get('/news/GetNewsByFind','api/news/GetNewsByFind');
 });
+
 /**
  * 用户模块路由
  */
@@ -122,8 +125,6 @@ Route::group('api/home/', function () {
     Route::post('hotel/postRoomOrderByData', 'api/home.order/postRoomOrderByData');//提交订单
 
 
-
-
     /**
      * 会议室模块
      */
@@ -132,8 +133,7 @@ Route::group('api/home/', function () {
     Route::post('Meeting/getMeetingBylist', 'api/home.meeting/getMeetingBylist');//获取符合需求信息列表
     Route::post('Meeting/PostMeetingOrderByData', 'api/home.meeting/PostMeetingOrderByData');//提交订单
     Route::post('Meeting/Demand_Push', 'api/home.meeting/Demand_Push');//提交报价
-
-
+    Route::post('Meeting/GetBisPush', 'api/home.meeting/GetBisPush');//查看报价
     /**
      * 订单模块
      */

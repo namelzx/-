@@ -23,6 +23,18 @@ class MeetingOrder extends BaseModel
         return self::create($data);
     }
 
+    /*
+    * 酒店后台订单
+    */
+    public static function getMeetingByOrder($data)
+    {
+        $res = self::where('shop_id', $data['shop_id'])
+            ->paginate($data['limit'], false, ['query' => $data['page'],]);
+        return $res;
+    }
+
+
+
     public static function getOrderByData($data)
     {
         $res = self::with('info')->

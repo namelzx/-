@@ -134,7 +134,7 @@ return [
             'callback' => '/index/Wechat/registered',
         ],
     ],
-    'wx_url'=>"http://localhost:8080/",
+    'wx_url'=>"http://leo.10huisp.com/dist/",
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => Env::get('think_path') . 'tpl/dispatch_jump.tpl',
     'dispatch_error_tmpl'    => Env::get('think_path') . 'tpl/dispatch_jump.tpl',

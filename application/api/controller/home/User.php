@@ -170,7 +170,6 @@ class User extends Base
 
     public function UserbyInfo()
     {
-
         $data = input('param.');
         $res = UserModel::with('wechat')->where($data)->find();
         if ($res) {

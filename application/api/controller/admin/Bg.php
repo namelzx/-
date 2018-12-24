@@ -66,4 +66,10 @@ class Bg extends Base
 
     }
 
+    public function GetNewsByFind()
+    {
+        $data = input("param.");
+        $res = db('table')->where('id', $data['id'])->find();
+        return json($res);
+    }
 }
