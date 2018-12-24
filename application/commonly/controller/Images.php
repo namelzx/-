@@ -21,23 +21,25 @@ class Images extends controller
 {
     public function upload()
     {
+        $config = config('aliyun_oss');
         // 获取表单上传文件 例如上传了001.jpg
         $file = request()->file('file');
-        // 移动到框架应用根目录/public/uploads/ 目录下
-
+//        dump($file);
+        // 移动到框架应用根目录/uploads/ 目录下
         $info = $file->move('./uploads');
         if ($info) {
-
-            // 输出 20160820/42a79759f284b767dfcb2a0197904287.jpg
-            $path = '/uploads/' . $info->getSaveName();
+            $path = $info->getSaveName();
             $fileName = 'uploads/' . $info->getSaveName();
-            $this->uploadFile('youalixing', $fileName, $info->getPathname());
-            // 成功上传后 返回上传信息
-            return json(array('state' => 1, 'path' => $path));
+            $fil = $this->uploadFile($config['Bucket'], $fileName, $info->getPathname());
+            if ($fil) {
+                unlink($fileName);
+            }
+            return json(array('state' => 1, 'path' => $config['url'] . $fileName));
         } else {
-            // 上传失败返回错误信息
-            return json(array('state' => 0, 'errmsg' => '上传失败'));
+            // 上传失败获取错误信息
+            echo $file->getError();
         }
+        return json($file);
     }
     public function training()
     {

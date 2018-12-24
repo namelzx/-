@@ -86,6 +86,7 @@ class Hotelbase extends Base
 
     public function setServer()
     {
+
         $data = input('param.');
         db('server_shop')->where('shop_id', $data['id'])->delete();
         foreach ($data['che'] as $k => $v) {
@@ -96,7 +97,7 @@ class Hotelbase extends Base
                 return json($cdata);
             }
         }
-        return json('添加成功');
+        return json('设置成功');
     }
 
     /* 数据重装 */
@@ -152,13 +153,13 @@ class Hotelbase extends Base
     public function update()
     {
         $data = input('post.');
-
         if (!empty($data)) {
             $Model = new Bis();
-            $res = db('bis')->strict(false)->where('user_id',7)->update($data);
+            $res = db('bis')->where('user_id',$data['user_id'])->update($data);
             return json(msg(1, $res, '更新成功'));
         }
     }
+
 
     public function facilitiesList()
     {
@@ -175,18 +176,27 @@ class Hotelbase extends Base
         $info['bed_type'] = $data['info']['bed_type'];
         $info['width'] = $data['info']['width'];
         $info['number'] = $data['info']['number'];
-        db('room_info')->insert($info);
-        return json(msg(1, $this->roominfo($data), '添加成功'));
+        $res=  db('room_info')->insertGetId($info);
+        return json(msg(1,$res, '添加成功'));
     }
 
+    public function PostDataByUpdate(){
+        $data = input('param.');
+         HotelRoom::PostDatByEdit($data);
+        db('room_info')->where('room_id',$data['id'])->delete();
+        $info['room_id'] = $data['id'];
+        $info['bed_type'] = $data['info']['bed_type'];
+        $info['width'] = $data['info']['width'];
+        $info['number'] = $data['info']['number'];
+        $res=  db('room_info')->insertGetId($info);
+        return json(msg(200, $res, '修改成功'));
+    }
     public function getRoombyList()
     {
-        $id = input('param.id');
-        $data = HotelRoom::where('user_id', $id)->select();
-
-        return json(msg(1, $this->roominfolist($data), '获取成功'));
+        $data = input('param.');
+        $data = HotelRoom::where('user_id', $data['id'])->paginate($data['limit'], false, ['query' => $data['page'],]);;
+        return json(msg($data->total(), $this->roominfolist($data), '获取成功'));
     }
-
     public function roombyDel()
     {
         $id = input('param.id');

@@ -11,6 +11,7 @@ namespace app\index\controller;
 
 use app\commonly\model\User as UserModel;
 use app\commonly\model\UserWechat;
+use EasyWeChat\Factory;
 use think\Controller;
 
 
@@ -24,40 +25,46 @@ class Wechat extends Controller
     // 用户授权成功的操作
     public function wxlogin()
     {
-        $config = config('weixin');//获取微信相关配置
-        $wechat = new \api\WxLogin($config);
-        if (isset($_GET['code'])) {
-            // 通过code参数获取Access_Token
-            $token = $wechat->get_access_token($_GET['code']);
-            // 通过code参数获取用户信息
-            $info = $wechat->get_userinfo($token->access_token, $token->openid);
-            $wx_user = $info;
-            $wx_user_info = UserWechat::where('openid', $wx_user->openid)->find();
-            // 如果第一次登录那么进行用户信息添加
-            if (empty($wx_user_info)) {
-                $UserModel = new UserModel();
-                $res = $UserModel->insertGetId([
-                    'role' => 1,//默认添加用户角色用普通用户
-                    'headimgurl' => $wx_user->headimgurl,
-                ]);
-                $userData = [
-                    'openid' => $wx_user->openid,
-                    'nickname' => $wx_user->nickname,
-                    'sex' => $wx_user->nickname,
-                    'headimgurl' => $wx_user->headimgurl,
-                    'user_id' => $res,
-                ];
-                UserWechat::PostWechatByData($userData);
-            }
-            // $info即为已经获得的用户的信息，数据格式为对象形式。如获取用户的openid,获取方式为$info->openid。
-//            $url = "http://localhost:8080/?id=" . $wx_user_info->openid;
-            $url = "http://ya.10huisp.com/?id=".$wx_user_info->openid;
+        $config = config('eas');//获取微信相关配置
+        $app = Factory::officialAccount($config);
 
-            $this->redirect($url);
-        } else {
-            $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' . $config['appId'] . '&redirect_uri=' . urlencode($config['redirect_uri']) . '&response_type=code&scope=snsapi_userinfo&state=state#wechat_redirect';
+        $oauth = $app->oauth;
+        // 未登录
+        if (empty($_SESSION['wechat_user'])) {
+            $_SESSION['target_url'] = 'user/profile';
+            return $oauth->redirect();
+        }
+        // 已经登录过
+        $user = $_SESSION['wechat_user'];
 
+    }
+
+    public function registered()
+    {
+        $config = config('eas');//获取微信相关配置
+        $app = Factory::officialAccount($config);
+        $oauth = $app->oauth;
+        $user = $oauth->user();
+        $wx_user_info = UserWechat::where('openid', $user->id)->find();
+        // 如果第一次登录那么进行用户信息添加
+        if (empty($wx_user_info)) {
+            $UserModel = new UserModel();
+            $res = $UserModel->insertGetId([
+                'role' => 1,//默认添加用户角色用普通用户
+                'headimgurl' => $user->avatar,
+            ]);
+            $userData = [
+                'openid' => $user->id,
+                'nickname' => $user->nickname,
+                'sex' => $user->sex,
+                'headimgurl' => $user->avatar,
+                'user_id' => $res,
+            ];
+            UserWechat::PostWechatByData($userData);
+            $url = "http://localhost:8080/#/?user_id=".$res;
             $this->redirect($url);
         }
+        $url = "http://localhost:8080/#/?user_id=".$wx_user_info->user_id;
+        $this->redirect($url);
     }
 }

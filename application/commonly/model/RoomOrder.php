@@ -23,9 +23,7 @@ class RoomOrder extends BaseModel
 
     public static function getOrderByData($data)
     {
-
-        $res = self::with('items')->
-        with('info')->
+        $res = self::with(['info','items'])->
         where('user_id',$data['user_id']);
         if(!empty($data['status'])){
             $res=$res->where('status',$data['status']);

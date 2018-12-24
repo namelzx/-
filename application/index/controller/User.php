@@ -30,7 +30,8 @@ class User extends Base
     public function login()
     {
         $data = input('param.');
-        return json($data);
+        $res = db('user')->where($data)->find();
+        return json($res);
     }
 
     // 认证信息

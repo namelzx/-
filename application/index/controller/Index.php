@@ -21,7 +21,6 @@ class Index extends Base
             $token = $wechat->get_access_token($_GET['code']);
             // 通过code参数获取用户信息
 
-            dump($token->access_token);
             $info = $wechat->get_userinfo($token->access_token, $token->openid);
             session('wx_user_info', $info);
             $this->redirect('user/index');
@@ -54,7 +53,6 @@ class Index extends Base
         // 当你设置微信回调网址设置为http://your domain/index/weixin/wxlogin时
         // 用户同意授权后，微信后台会访问该网站同时返回code参数
         $config = config('weixin');//获取微信相关配置
-        dump($config);
 //        $wechat = new \api\WxLogin($config);
 //        if(isset($_GET['code'])){
 //            // 通过code参数获取Access_Token
@@ -84,7 +82,6 @@ class Index extends Base
                 ],
             ]);
 
-        dump($data);
 
 
     }

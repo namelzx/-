@@ -10,6 +10,7 @@ namespace app\api\controller\home;
 
 
 use app\commonly\model\HotelDemand;
+use app\commonly\model\MeetingOrder;
 use app\commonly\model\RoomOrder;
 use app\commonly\model\RoomOrderRoom;
 
@@ -34,6 +35,28 @@ class Order extends Base
             $res=RoomOrder::getOrderByData($data);
         return json($res);
     }
+
+
+
+    /*
+   * 根据用户id查询用户会议室订单的信息
+   */
+    public function getmeetingOrderByData(){
+        $data=input('param.');
+        $res=MeetingOrder::getOrderByData($data);
+        return json($res);
+    }
+
+    /**
+    * 修改会议室订单状态
+    */
+    public function SetmeetingByStatus()
+    {
+        $data = input('param.');
+        MeetingOrder::SetOrderByStatus( $data);
+        return json($data);
+    }
+
     /* 提交订单数据重装 */
     function groupOrder($visit, $id)
     {

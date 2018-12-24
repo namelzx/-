@@ -28,15 +28,6 @@ class Images extends controller
         $info = $file->move('./uploads');
         if ($info) {
 
-//
-//注释掉的是缩图
-//            $path = '/uploads/' . $info->getSaveName();
-//            $image = \think\Image::open('./uploads/' . $info->getSaveName());
-////将图片裁剪为300x300并保存为crop.png
-//            $image->thumb(00, 300)->save('./uploads/' . $info->getFilename());
-////             成功上传后 返回上传信息
-//            return json(array('state' => 1, 'path' => $path));
-
 
             $path = '/uploads/' . $info->getSaveName();
             return json(array('state' => 1, 'path' => $path));

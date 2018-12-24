@@ -25,4 +25,13 @@ class Facilities extends BaseModel
             ->paginate($data['limit'], false, ['query' => $data['page'],]);
         return $res;
     }
+    /**
+     * 删除数据
+     */
+    public static function GetDataByDelete($id)
+    {
+        $res = self::where('id', $id)->delete();
+        return $res;
+    }
+
 }

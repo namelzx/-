@@ -128,7 +128,13 @@ return [
     'eas'=>[
         'app_id' => 'wx29bb960bf1ba8dd8',
         'secret' => 'd58716d3f03c0cd9eaef74eef9e3960f',
+        'response_type' => 'array',
+        'oauth' => [
+            'scopes'   => ['snsapi_userinfo'],
+            'callback' => '/index/Wechat/registered',
+        ],
     ],
+    'wx_url'=>"http://localhost:8080/",
     // 默认跳转页面对应的模板文件
     'dispatch_success_tmpl'  => Env::get('think_path') . 'tpl/dispatch_jump.tpl',
     'dispatch_error_tmpl'    => Env::get('think_path') . 'tpl/dispatch_jump.tpl',
@@ -145,8 +151,10 @@ return [
     'aliyun_oss' => [
         'KeyId'      => 'LTAI4G7m7lF5SkXU',  //您的Access Key ID
         'KeySecret'  => 'PbcsuZTY2CMVPjr1K2DGzMejeotVTI',  //您的Access Key Secret
-        'Endpoint'   => 'oss-cn-qingdao.aliyuncs.com',  //阿里云oss 外网地址endpoint
+        'Endpoint'   => 'oss-cn-qingdao.aliyuncs.com/',  //阿里云oss 外网地址endpoint
         'Bucket'     => 'youalixing',  //Bucket名称
+        'url'=>'https://youalixing.oss-cn-qingdao.aliyuncs.com/'
+
     ],
 
 ];

@@ -18,4 +18,14 @@ class HotelRoom extends  BaseModel
         return self::create($data);
     }
 
+    /**
+     * 修改数据
+     */
+    public static function PostDatByEdit($data)
+    {
+        $res = self::where('id', $data['id'])->data($data)->update();
+        return $res;
+    }
+
+
 }

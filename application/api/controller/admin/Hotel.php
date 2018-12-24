@@ -30,10 +30,9 @@ class Hotel extends Base
                 $res = $res->where('b.status', $data['status']);
             }
         }
-        $res = $res->order('b.status')->paginate($data['limit'], false, ['query' => $data['page'],]);
+        $res = $res->order('b.status')->field('b.id,b.qiyeming,h.contact,h.city,h.detailed,b.area,b.status,h.phone,h.busLicense')->paginate($data['limit'], false, ['query' => $data['page'],]);
         return json($res);
     }
-
     /*
      * 添加数据
      */

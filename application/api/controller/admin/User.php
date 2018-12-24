@@ -18,7 +18,7 @@ class User extends Base
     {
         $data = input('get.');
         $Model = new Certification();
-        $res = $Model->alias('c')->join('user u','u.id=c.user_id');
+        $res = $Model->alias('c')->join('user u', 'u.id=c.user_id');
         if (!empty($data['username'])) {
             $res = $res->where('username', $data['username']);
         }

@@ -15,11 +15,14 @@ class User extends BaseModel
     {
         return $this->hasOne('Certification','user_id');
     }
+    public function wechat()
+    {
+        return $this->hasOne('UserWechat','user_id');
+    }
     public static function getUserBylist(){
         $res=self::
         withJoin('items')->select();
         return $res;
-
     }
     public static function PostUpdateByData($data)
     {

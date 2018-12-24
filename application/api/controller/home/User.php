@@ -35,14 +35,28 @@ class User extends Base
     public function login()
     {
         $data = input('param.');
-        $user = db('user')->where('phone', $data['phone'])->find();
-        if (empty($user)) {//该手机号码未注册
-            $id = db('user')->insertGetId($data);
-            return json(msg(204, $id, '注册信息成功进入用户信息完善'));
-        } else { //手机号码已经注册
-            return json(msg(200, $user['id'], '进入主页'));
+        /*
+         * 使用微信登陆
+         */
+        $res = db('user')->where('id', $data['id'])->find();
+        if ($res['phone'] == $data['phone']) {
+            return json(msg(200, $res['phone'], '进入主页'));
+        } else {
+            db('user')->where('id', $data['id'])->data(['phone'=>$data['phone']])->update();
+            return json(msg(200, $res['phone'], '修改'));
         }
-        return json($userfind);
+
+        /*
+         * 不使用微信登陆
+         */
+//        $user = db('user')->where('phone', $data['phone'])->find();
+//        if (empty($user)) {//该手机号码未注册
+//            $id = db('user')->insertGetId($data);
+//            return json(msg(204, $id, '注册信息成功进入用户信息完善'));
+//        } else { //手机号码已经注册
+//            return json(msg(200, $user['id'], '进入主页'));
+//        }
+//        return json($userfind);
     }
 
     /**
@@ -90,9 +104,9 @@ class User extends Base
             $res = $HoleModel->allowField(true)->save($data);
 //                HotelCertification::PostCertificationByData($data);
             if ($res) {
-                return json(msg(200, 'null', '提交成功'));
+                return json(msg(200, $res, '提交成功'));
             } else {
-                return json(msg(201, 'null', '提交失败'));
+                return json(msg(201, $res, '提交失败'));
             }
         } else {
             $bisdata['user_id'] = $data['user_id'];
@@ -100,11 +114,11 @@ class User extends Base
             db('bis')->strict(true)->where('user_id', $data['user_id'])->update($bisdata);
             $res = $HoleModel->allowField(true)->save($data, ['user_id' => $data['user_id']]);
             if ($res) {
-                return json(msg(200, 'null', '更新成功'));
+                return json(msg(200, $res, '更新成功'));
             } else {
-                return json(msg(201, 'null', '更新失败'));
+                return json(msg(201, $res, '更新失败'));
             }
-            return json(msg(204, 'null', '提交已申请请耐心等待'));
+            return json(msg(204, $res, '提交已申请请耐心等待'));
         }
 
     }
@@ -153,13 +167,14 @@ class User extends Base
             return json(msg(201, $res, '更新失败'));
         }
     }
+
     public function UserbyInfo()
     {
 
         $data = input('param.');
-        $res = UserModel::get($data['id']);
+        $res = UserModel::with('wechat')->where($data)->find();
         if ($res) {
-            return json(msg(200, $res, '获取成功'));
+            return json(msg(200, $res,'获取成功'));
         } else {
             return json(msg(201, $res, '获取失败'));
         }
