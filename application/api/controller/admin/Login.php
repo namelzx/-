@@ -36,17 +36,20 @@ class Login extends Base
         }
     }
 
+
     public function info()
     {
         $data = input('param.');
         $res = LoginAdmin::where('roles', $data['token'])->find();
-        return json(logomsg(200,$res['roles'] , $res,'获取用户信息成功'));
+        return json(logomsg(200, $res['roles'], $res, '获取用户信息成功'));
     }
+
     /*
  * 退出登陆
  */
     public function logout()
     {
+
         return json('success');
     }
 
