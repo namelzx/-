@@ -24,7 +24,6 @@ class Images extends controller
         $config = config('aliyun_oss');
         // 获取表单上传文件 例如上传了001.jpg
         $file = request()->file('file');
-//        dump($file);
         // 移动到框架应用根目录/uploads/ 目录下
         $info = $file->move('./uploads');
         if ($info) {
